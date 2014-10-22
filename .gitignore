@@ -1,0 +1,5 @@
+bin
+*.tgz
+run_mr
+data
+*.txt
