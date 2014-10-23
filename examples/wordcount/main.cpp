@@ -166,7 +166,7 @@ int main() {
 	// Initialize components
 	for ( int tidx = 0; tidx < threadCount; tidx++ ) {
 		char filename[128];
-		sprintf( filename, "data/file%02d.dat", tidx );
+		sprintf( filename, "bin/file%02d.dat", tidx );
 		NullInputParser* ni = new NullInputParser(filename);
 		TestMR* worker = new TestMR(ni, threadCount);
 		
@@ -192,7 +192,7 @@ int main() {
 	clock_gettime(CLOCK_REALTIME, & start);
 	for ( int tidx = 0; tidx < threadCount; tidx++ ) {
 		char filename[128];
-		sprintf( filename, "data/file%02d.dat", tidx );
+		sprintf( filename, "bin/file%02d.dat", tidx );
 		FILE* infile = fopen(filename, "r");
 		while(!feof(infile)) {
 			int rres = fread(rbuffer, 1, sizeof(char)*8192, infile);

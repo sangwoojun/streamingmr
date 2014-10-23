@@ -1,0 +1,32 @@
+StreamingMR (Title tentative. Suggestions welcome!)
+
+This is a C++ emulated implementation of the planned hardware implementation of
+MapReduce.
+
+The key problem we're trying to solve is that MapReduce is difficult to be
+effective on the hardware because of the limited RAM capacity for intermediate
+storage.
+
+The solution that is proposed is: Instead of storeing K/V pairs in the
+intermediate storage, let's store per-key contexts, or local variables, in the
+intermediate storage. For classes of applications where the number of keys is
+much smaller than the amount of data, this can be effective.
+(Histograms might be a good example)
+
+Bear in mind that dynamic memory such as malloc do not exist on the hardware (or
+are very slow).
+
+The main work of the programmer is to inherit and implement two classes:
+MapReduceApp and InputParser.
+
+This will require inheriting and implementing three data classes:
+InputPair, Pair and Context.
+
+InputParser reads a raw data file and turns it into a stream of InputPairs.
+MapReduceApp->map is called by the platform for each InputPair, and emits a
+stream of Pair's. MapReduceApp->reduce is called with Pair and that Pair's
+Context, and modifies the Context state. MapReduceApp->finalize is called with
+each Context for all keys once all data is processed, to emit final results.
+
+An example of a random 4 byte word-counting app is provided in
+examples/wordcount
